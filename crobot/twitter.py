@@ -16,5 +16,5 @@ def tweet(text):
 	)
 
 	message = text
-#	twitter.update_status(status=message)
+	twitter.update_status(status=message)
 	print ('Tweeted: %s' % message)

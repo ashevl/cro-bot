@@ -1,4 +1,4 @@
-import core_modules
+import bot_functions
 
 #This program is designed to run from the current company number up to the latest company formed
 
@@ -6,12 +6,12 @@ import core_modules
 # The current newest company number is stored in a file
 # This command retrieves the value from a file
 # And assigns it the name 'num'
-num = core_modules.get_num()
+num = bot_functions.get_num()
 
 # This command search for how many companies have a particular company number
 # The result should onlt ever be 0 or 1
 # The result is assigned to the variable 'count'
-count = core_modules.get_count(num)
+count = bot_functions.get_count(num)
 
 # The code below depends on the number of companies found by the 'get_count' function
 # If zero, the user is informed that the comapny does not yet exist
@@ -38,10 +38,10 @@ print ('This company number occurs in the database ' + count + ' time(s)')
 #Use this if you want to cycle through companies:
 while count == '1':
 	try:
-		core_modules.make_json(num)
-		core_modules.increment()
-		num = core_modules.get_num()
-		count = core_modules.get_count(num)
+		bot_functions.make_json(num)
+		bot_functions.increment()
+		num = bot_functions.get_num()
+		count = bot_functions.get_count(num)
 		print ('The current number is ' + num)
 		print ('The count is :' + count)
 		print ('\n')

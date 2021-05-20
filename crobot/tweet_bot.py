@@ -1,24 +1,24 @@
-import core_modules
+import bot_functions
 from twitter import tweet
 
 # The current newest company number is stored in a file
 # This command retrieves the value from a file
 # And assigns it the name 'num'
-num = core_modules.get_num()
+num = bot_functions.get_num()
 
 # This command searches for how many companies have a particular company number
 # The result should onlt ever be 0 or 1
 # The result is assigned to the variable 'count'
-count = core_modules.get_count(num)
+count = bot_functions.get_count(num)
 
 print ('The starting company number is ' + num)
 print ('This company number occurs in the database ' + count + ' time(s)\n')
 
 #Version for when using cron
-core_modules.make_json(num)
+bot_functions.make_json(num)
 
 if count == '1':
-	json_data = core_modules.read_json(num)
+	json_data = bot_functions.read_json(num)
 	for item in json_data:
 		assert item in json_data
 
@@ -42,7 +42,7 @@ if count == '1':
 	f = open('tweet_files/' + num + '_tweet.txt', 'r')
 	tweet(f.read())
 	f.close
-	core_modules.increment()
+	bot_functions.increment()
 else:
 	print ('That\'s all for now')
 

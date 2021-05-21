@@ -1,5 +1,5 @@
-def get_num():
-	f = open('corp_num.txt', 'r')
+def get_num(num_file):
+	f = open(num_file, 'r')
 	num = f.read()
 	return num
 
@@ -20,7 +20,7 @@ def get_count(num):
 	count = (res.read()).decode()
 	return count
 
-def search(num):
+def search(name):
 	import http.client, json
 	from auth import (
 		cro_user,
@@ -32,7 +32,7 @@ def search(num):
 	headers = {'User-Agent': cro_user, 'Host': 'services.cro.ie', 'Content-type': 
 	'application/json', 'Authorization': cro_key }
 
-	h.request('GET', '/cws/companies?&company_num=' + num + '&skip=0&max=5&htmlEnc=0', headers=headers, body=None)
+	h.request('GET', '/cws/companies?&company_name=' + name + '&skip=0&max=250&htmlEnc=0', headers=headers, body=None)
 
 	res = h.getresponse()
 	json_data = json.loads(res.read())
@@ -69,9 +69,9 @@ def make_json(num):
 		json.dump(json_data, outfile)
 	outfile.close()
 
-def increment():
+def increment(num_file):
 	# opens the file which has the newst company number
-	f = open('corp_num.txt', 'r')
+	f = open(num_file, 'r')
 
 	# assigna the contents of this text file the name 'string1'
 	string1 = f.read()
@@ -89,7 +89,7 @@ def increment():
 	string3 = str(num)
 
 	# write the new value to the file
-	f = open('corp_num.txt', 'w')
+	f = open(num_file, 'w')
 	f.write(string3)
 	f.close
 

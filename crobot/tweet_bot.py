@@ -3,7 +3,8 @@ import bot_functions
 # This module finds and posts data on one company at a time
 
 # Gets the most recently searched company number
-num = bot_functions.get_num()
+num_file = 'corp_num.txt'
+num = bot_functions.get_num(num_file)
 
 # Find the number of matches for the current company number on cro.ie
 # The result should only ever be 0 or 1
@@ -20,7 +21,7 @@ if count == '1':
 	bot_functions.make_json(num)
 	bot_functions.json_to_text(num)
 	bot_functions.text_to_tweet(num)
-	bot_functions.increment()
+	bot_functions.increment(num_file)
 else:
 	print ('That\'s all for now.')
 

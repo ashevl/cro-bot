@@ -100,3 +100,34 @@ def read_json(num):
 	json_data = json.loads(f.read())
 
 	return json_data
+
+def json_to_text(num):
+	import json
+
+	f = open('json_files/' + num + '.txt', 'r')
+	json_data = json.loads(f.read())
+
+	for item in json_data:
+		assert item in json_data
+
+	if item['eircode'] == '':
+		address = item['company_addr_1'] + ', ' + item['company_addr_2'] + ', ' + item['company_addr_3'] + ', ' + item['company_addr_4']
+	else:
+		address = item['eircode']
+
+	address = address.replace(' ', '%20')
+	short_date = str(item['company_reg_date'])[:10]
+
+	f = open('tweet_files/' + num + '_tweet.txt', 'w')
+	f.write(item['company_name'] + '.\n')
+	f.write('Company Number: ' + str(item['company_num']) + '.\n')
+	f.write('Registered on ' + short_date + '.\n')
+	f.write('Find it here: maps.google.ie/?q=' + address)
+	f.close()
+
+def text_to_tweet(num):
+	from twitter import tweet
+
+	f = open('tweet_files/' + num + '_tweet.txt', 'r')
+	tweet(f.read())
+	f.close

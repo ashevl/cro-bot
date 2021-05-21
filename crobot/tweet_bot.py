@@ -1,8 +1,8 @@
 import bot_functions
 from twitter import tweet
 
-# The current newest company number is stored in a file
-# This command retrieves the value from a file
+# The current newest company number is stored in a corp_num.txt
+# This command retrieves the value from the file
 # And assigns it the name 'num'
 num = bot_functions.get_num()
 
@@ -26,7 +26,7 @@ if count == '1':
 	print (item['company_name'])
 
 	if item['eircode'] == '':
-		address = item['company_addr_1'] + item['company_addr_2'] + item['company_addr_3'] + item['company_addr_4']
+		address = item['company_addr_1'] + ', ' + item['company_addr_2'] + ', ' + item['company_addr_3'] + ', ' + item['company_addr_4']
 	else:
 		address = item['eircode']
 

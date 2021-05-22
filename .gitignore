@@ -1,6 +1,9 @@
-/crobot/json_files/
-/crobot/tweet_files/
+/crobot/json_files/*
+/crobot/tweet_files/*
+/crobot/address_files/*
+/crobot/geocode_files/*
 /crobot/auth.py
 /crobot/__pycache__/
 /crobot/corp_num.txt
 /subproject/
+

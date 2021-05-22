@@ -133,3 +133,39 @@ def text_to_tweet(num):
 	f = open('tweet_files/' + num + '_tweet.txt', 'r')
 	tweet(f.read())
 	f.close
+
+def json_to_address(num):
+	import json
+
+	f = open('json_files/' + num + '.txt', 'r')
+	json_data = json.loads(f.read())
+
+	for item in json_data:
+		assert item in json_data
+
+	if item['eircode'] == '':
+		address = item['company_addr_1'] + ', ' + item['company_addr_2'] + ', ' + item['company_addr_3'] + ', ' + item['company_addr_4']
+	else:
+		address = item['eircode'] + ',Ireland'
+
+	f = open('address_files/' + num + '_address.txt', 'w')
+	f.write(address)
+	f.close()
+
+def address_to_geocode(num):
+	import googlemaps, json
+	from auth import maps_key
+
+	address = open('address_files/' + num + '_address.txt', 'r')
+
+	gmaps = googlemaps.Client(key=maps_key)
+	geocode_result = gmaps.geocode(address)
+
+	for item in geocode_result:
+		assert item in geocode_result
+
+	with open('geocode_files/' + num + '.txt', 'w') as outfile:
+		json.dump(geocode_result, outfile)
+	outfile.close()
+
+	return geocode_result

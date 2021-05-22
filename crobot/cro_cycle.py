@@ -24,6 +24,8 @@ i = 1
 while count == '1':
 #	try:
 	bot_functions.make_json(num)
+	bot_functions.json_to_address(num)
+#	bot_functions.address_to_geocode(num)
 	bot_functions.increment(num_file)
 	i = i + 1
 	num = bot_functions.get_num(num_file)

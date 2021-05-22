@@ -1,9 +1,10 @@
 def get_num(num_file):
 	f = open(num_file, 'r')
 	num = f.read()
+	f.close()
 	return num
 
-def get_count(num):
+def num_count(num):
 	import http.client, json
 	from auth import (
 		cro_user,
@@ -20,7 +21,7 @@ def get_count(num):
 	count = (res.read()).decode()
 	return count
 
-def name_search(name):
+def name_count(name):
 	import http.client, json
 	from auth import (
 		cro_user,
@@ -29,21 +30,35 @@ def name_search(name):
 
 	h = http.client.HTTPSConnection('services.cro.ie') 
 
+	headers = {'User-Agent': cro_user, 'Host': 'services.cro.ie', 'Content-type': 'application/json', 'Authorization': cro_key }
+
+	h.request('GET', '/cws/companycount?&company_name=' + name + '&company_bus_ind=C&searchType=2', headers=headers, body=None)
+
+	res = h.getresponse()
+	count = (res.read()).decode()
+	return count
+
+def name_search(name, skip):
+	import http.client, json
+	from auth import (
+		cro_user,
+		cro_key
+	)
+
+	skip = str(skip)
+
+	h = http.client.HTTPSConnection('services.cro.ie') 
+
 	headers = {'User-Agent': cro_user, 'Host': 'services.cro.ie', 'Content-type': 
 	'application/json', 'Authorization': cro_key }
 
-	h.request('GET', '/cws/companies?&company_name=' + name + '&company_bus_ind=C&searchType=1' + '&skip=0&max=250&htmlEnc=0', headers=headers, body=None)
+	h.request('GET', '/cws/companies?&company_name=' + name + '&company_bus_ind=C&searchType=2' + '&skip=' + skip + '&max=250&htmlEnc=1', headers=headers, body=None)
 
 	res = h.getresponse()
 	json_data = json.loads(res.read())
-
 	for item in json_data:
 		assert item in json_data
-
-		print (item['company_name'])
-		short_date = str(item['company_reg_date'])[:10]
-		print ('Registered on ' + short_date)
-		print ('It\'s Eircode is ' + item['eircode'])
+#		print (item['company_name'])
 
 	return json_data
 
@@ -169,3 +184,78 @@ def address_to_geocode(num):
 	outfile.close()
 
 	return geocode_result
+
+def make_db():
+
+	import sqlite3
+
+	connection = sqlite3.connect("database_files/crobot.db")
+	cursor = connection.cursor()
+
+	sql_command = """
+	CREATE TABLE companies (
+		company_num int PRIMARY KEY, 
+		company_bus_ind	varchar(1),
+		company_name varchar(200),
+		company_addr_1 varchar(800),
+		company_addr_2	varchar(800),
+		company_addr_3	varchar(800),
+		company_addr_4	varchar(800),
+		company_reg_date DATE,
+		company_status_desc varchar(1000),
+		company_status_date DATE,
+		last_ar_date DATE,
+		next_ar_date DATE,
+		last_acc_date DATE,
+		comp_type_desc varchar(100),
+		company_type_code int,
+		company_status_code int,
+		place_of_business varchar(50),
+		eircode	varchar(20)
+	);"""
+
+	cursor.execute(sql_command)
+
+	connection.commit()
+	connection.close()
+
+def json_to_sql(json_data):
+	import json, sqlite3
+
+	connection = sqlite3.connect("database_files/crobot.db")
+	cursor = connection.cursor()
+
+	for item in json_data:
+		assert item in json_data
+
+		company_name = item['company_name']
+		company_addr_1 = item['company_addr_1']
+		company_addr_2 = item['company_addr_2']
+		company_addr_3 = item['company_addr_3']
+		company_addr_4 = item['company_addr_4']
+		place_of_business = item['place_of_business']
+
+		format_str = """INSERT OR REPLACE INTO companies (company_num, company_bus_ind, company_name, company_addr_1, company_addr_2, 
+		company_addr_3, company_addr_4, company_reg_date, company_status_desc, company_status_date, last_ar_date, next_ar_date, 
+		last_acc_date , comp_type_desc, company_type_code, company_status_code, place_of_business, eircode) VALUES ("{company_num}", 
+		"{company_bus_ind}", "{company_name}", "{company_addr_1}", "{company_addr_2}", "{company_addr_3}", "{company_addr_4}", 
+		"{company_reg_date}", "{company_status_desc}", "{company_status_date}", "{last_ar_date}", "{next_ar_date}", "{last_acc_date}", 
+		"{comp_type_desc}", "{company_type_code}", "{company_status_code}", "{place_of_business}", "{eircode}");"""
+
+		sql_command = format_str.format(company_num = item['company_num'],company_bus_ind = item['company_bus_ind'], company_name = 
+		company_name, company_addr_1 = company_addr_1, company_addr_2 = company_addr_2, company_addr_3 = company_addr_3, company_addr_4 = 
+		company_addr_4, company_reg_date = item['company_reg_date'], company_status_desc = item['company_status_desc'], company_status_date 
+		= item['company_status_date'], last_ar_date = item['last_ar_date'], next_ar_date = item['next_ar_date'], last_acc_date = 
+		item['last_acc_date'], comp_type_desc = item['comp_type_desc'], company_type_code = item['company_type_code'], company_status_code = 
+		item['company_status_code'], place_of_business = place_of_business, eircode = item['eircode'])
+
+		print (company_name)
+		cursor.execute(sql_command)
+
+	connection.commit()
+	connection.close()
+
+def search_paramters():
+
+	first = '48'
+	last = '90'

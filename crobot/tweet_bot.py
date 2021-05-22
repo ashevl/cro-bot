@@ -8,7 +8,7 @@ num = bot_functions.get_num(num_file)
 
 # Find the number of matches for the current company number on cro.ie
 # The result should only ever be 0 or 1
-count = bot_functions.get_count(num)
+count = bot_functions.num_count(num)
 
 print ('The starting company number is ' + num)
 print ('This company number occurs in the database ' + count + ' time(s)\n')
@@ -26,6 +26,8 @@ if count == '1':
 	bot_functions.address_to_geocode(num)
 	bot_functions.text_to_tweet(num)
 	bot_functions.increment(num_file)
+	num = bot_functions.get_num(num_file)
+	count = bot_functions.num_count(num)
 else:
 	print ('That\'s all for now.')
 

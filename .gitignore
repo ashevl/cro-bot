@@ -2,6 +2,8 @@
 /crobot/tweet_files/*
 /crobot/address_files/*
 /crobot/geocode_files/*
+/crobot/database_files/*
+/crobot/.my*
 /crobot/auth.py
 /crobot/__pycache__/
 /crobot/corp_num.txt

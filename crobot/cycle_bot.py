@@ -11,7 +11,7 @@ num = bot_functions.get_num(num_file)
 # This command search for how many companies have a particular company number
 # The result should onlt ever be 0 or 1
 # The result is assigned to the variable 'count'
-count = bot_functions.get_count(num)
+count = bot_functions.num_count(num)
 
 #By uncommenting the below you can try to diagnose the cause of errors
 #print (count)
@@ -26,10 +26,12 @@ while count == '1':
 	bot_functions.make_json(num)
 	bot_functions.json_to_address(num)
 #	bot_functions.address_to_geocode(num)
+	json_data = bot_functions.read_json(num)
+	bot_functions.json_to_sql(json_data)
 	bot_functions.increment(num_file)
 	i = i + 1
 	num = bot_functions.get_num(num_file)
-	count = bot_functions.get_count(num)
+	count = bot_functions.num_count(num)
 	print ('The current number is ' + num)
 	print ('The count is :' + count + '\n')
 	print ('The search has been performed ' + str(i) + ' times.\n')

@@ -20,7 +20,7 @@ def get_count(num):
 	count = (res.read()).decode()
 	return count
 
-def search(name):
+def name_search(name):
 	import http.client, json
 	from auth import (
 		cro_user,
@@ -32,7 +32,7 @@ def search(name):
 	headers = {'User-Agent': cro_user, 'Host': 'services.cro.ie', 'Content-type': 
 	'application/json', 'Authorization': cro_key }
 
-	h.request('GET', '/cws/companies?&company_name=' + name + '&skip=0&max=250&htmlEnc=0', headers=headers, body=None)
+	h.request('GET', '/cws/companies?&company_name=' + name + '&company_bus_ind=C&searchType=1' + '&skip=0&max=250&htmlEnc=0', headers=headers, body=None)
 
 	res = h.getresponse()
 	json_data = json.loads(res.read())
@@ -44,6 +44,8 @@ def search(name):
 		short_date = str(item['company_reg_date'])[:10]
 		print ('Registered on ' + short_date)
 		print ('It\'s Eircode is ' + item['eircode'])
+
+	return json_data
 
 def make_json(num):
 	import http.client, json
@@ -57,7 +59,7 @@ def make_json(num):
 	headers = {'User-Agent': cro_user, 'Host': 'services.cro.ie', 'Content-type': 
 	'application/json', 'Authorization': cro_key }
 
-	h.request('GET', '/cws/companies?&company_num=' + num + '&skip=0&max=5&htmlEnc=0', headers=headers, body=None)
+	h.request('GET', '/cws/companies?&company_num=' + num + '&company_bus_ind=C&searchType=1' + '&skip=0&max=5&htmlEnc=0', headers=headers, body=None)
 
 	res = h.getresponse()
 	json_data = json.loads(res.read())

@@ -22,16 +22,16 @@ print ('This company number occurs in the database ' + count + ' time(s)')
 #Use this if you want to cycle through companies:
 i = 1
 while count == '1':
-	try:
-		bot_functions.make_json(num)
-		bot_functions.increment(num_file)
-		i = i + 1
-		num = bot_functions.get_num(num_file)
-		count = bot_functions.get_count(num)
-		print ('The current number is ' + num)
-		print ('The count is :' + count + '\n')
-		print ('The search has been performed ' + str(i) + ' times.\n')
-	except:
-		print ('There was an error on ' + num + '.')
-		bot_functions.increment(num_file)
-		continue
+#	try:
+	bot_functions.make_json(num)
+	bot_functions.increment(num_file)
+	i = i + 1
+	num = bot_functions.get_num(num_file)
+	count = bot_functions.get_count(num)
+	print ('The current number is ' + num)
+	print ('The count is :' + count + '\n')
+	print ('The search has been performed ' + str(i) + ' times.\n')
+#	except:
+#		print ('There was an error on ' + num + '.')
+#		bot_functions.increment(num_file)
+#		continue

@@ -4,8 +4,8 @@ import bot_functions
 last = 91
 #max = 250
 
-letter1 = 67
-letter2 = 48
+letter1 = 83
+letter2 = 81
 
 while letter1 < last:
 	while letter2 < last:

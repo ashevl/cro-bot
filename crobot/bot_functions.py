@@ -171,18 +171,18 @@ def address_to_geocode(num):
 	import googlemaps, json
 	from auth import maps_key
 
-	address = open('address_files/' + num + '_address.txt', 'r')
-
+	address_file = open('address_files/' + num + '_address.txt', 'r')
+	address = address_file.read()
+	print (address)
 	gmaps = googlemaps.Client(key=maps_key)
 	geocode_result = gmaps.geocode(address)
 
 	for item in geocode_result:
 		assert item in geocode_result
 
-	with open('geocode_files/' + num + '.txt', 'w') as outfile:
+	with open('geocode_files/' + num + '_geocode.txt', 'w') as outfile:
 		json.dump(geocode_result, outfile)
 	outfile.close()
-
 	return geocode_result
 
 def make_db():

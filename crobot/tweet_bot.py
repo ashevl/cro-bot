@@ -24,8 +24,13 @@ if count == '1':
 	bot_functions.json_to_text(num)
 	bot_functions.json_to_address(num)
 	bot_functions.address_to_geocode(num)
+
+	json_data = bot_functions.read_json(num)
+	bot_functions.json_to_sql(json_data)
+
 	bot_functions.text_to_tweet(num)
 	bot_functions.increment(num_file)
+
 	num = bot_functions.get_num(num_file)
 	count = bot_functions.num_count(num)
 else:

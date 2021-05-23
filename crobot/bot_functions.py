@@ -159,7 +159,7 @@ def json_to_address(num):
 		assert item in json_data
 
 	if item['eircode'] == '':
-		address = item['company_addr_1'] + ', ' + item['company_addr_2'] + ', ' + item['company_addr_3'] + ', ' + item['company_addr_4']
+		address = item['company_addr_1'] + ', ' + item['company_addr_2'] + ', ' + item['company_addr_3'] + ', ' + item['company_addr_4'] + ', Ireland'
 	else:
 		address = item['eircode'] + ',Ireland'
 

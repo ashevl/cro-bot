@@ -4,7 +4,7 @@ import bot_functions
 last = 91
 #max = 250
 
-letter1 = 48
+letter1 = 67
 letter2 = 48
 
 while letter1 < last:
@@ -19,6 +19,7 @@ while letter1 < last:
 		print (search_term)
 		while skip < count:
 			print ('This is the ' + str(i) + 'th go round. The skip = ' + str(skip))
+			print ('The count is ' + str(count))
 			json_data = bot_functions.name_search(search_term, skip)
 			bot_functions.json_to_sql(json_data)
 			i += 1
@@ -30,4 +31,11 @@ while letter1 < last:
 
 		letter2 += 1
 	else:
-		letter1 +=1
+		json_data = bot_functions.name_search(search_term, skip)
+		bot_functions.json_to_sql(json_data)
+#		print ('a: ' + str(letter1) + str(letter2))
+#	print ('c: ' + str(letter1) + str(letter2))
+	letter2 = 48
+	letter1 +=1
+else:
+	print ('thats all')

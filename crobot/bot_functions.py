@@ -201,12 +201,12 @@ def make_db():
 		company_addr_2	varchar(800),
 		company_addr_3	varchar(800),
 		company_addr_4	varchar(800),
-		company_reg_date DATE,
-		company_status_desc varchar(1000),
-		company_status_date DATE,
-		last_ar_date DATE,
-		next_ar_date DATE,
-		last_acc_date DATE,
+		company_reg_date varchar(20),
+		company_status_desc varchar(100),
+		company_status_date varchar(20),
+		last_ar_date varchar(20),
+		next_ar_date varchar(20),
+		last_acc_date varchar(20),
 		comp_type_desc varchar(100),
 		company_type_code int,
 		company_status_code int,
@@ -259,3 +259,82 @@ def search_paramters():
 
 	first = '48'
 	last = '90'
+
+def json_to_mysql(json_data):
+	import json
+	import mariadb
+
+	mydb = mariadb.connect(
+	  host="localhost",
+	  user="andrew",
+	  password="",
+	  database="crobot"
+	)
+
+	mycursor = mydb.cursor()
+
+	for item in json_data:
+		assert item in json_data
+
+		sql = """REPLACE INTO companies (company_num,
+			company_bus_ind,
+			company_name,
+			company_addr_1,
+			company_addr_2,
+			company_addr_3,
+			company_addr_4,
+			company_reg_date,
+			company_status_desc,
+			company_status_date,
+			last_ar_date,
+			next_ar_date,
+			last_acc_date,
+			comp_type_desc,
+			company_type_code,
+			company_status_code,
+			place_of_business,
+			eircode)
+
+			VALUES (%d,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%d,
+			%d,
+			%s,
+			%s)"""
+
+		val = (	item['company_num'],
+			item['company_bus_ind'],
+			item['company_name'],
+			item['company_addr_1'],
+			item['company_addr_2'],
+			item['company_addr_3'],
+			item['company_addr_4'],
+			item['company_reg_date'],
+			item['company_status_desc'],
+			item['company_status_date'],
+			item['last_ar_date'],
+			item['next_ar_date'],
+			item['last_acc_date'],
+			item['comp_type_desc'],
+			item['company_type_code'],
+			item['company_status_code'],
+			item['place_of_business'],
+			item['eircode']
+		)
+		mycursor.execute(sql, val)
+
+	mydb.commit()
+
+	print(mycursor.rowcount, "record inserted.")

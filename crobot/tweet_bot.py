@@ -27,6 +27,7 @@ if count == '1':
 
 	json_data = bot_functions.read_json(num)
 	bot_functions.json_to_mysql(json_data)
+	bot_functions.json_to_sql(json_data)
 
 	bot_functions.text_to_tweet(num)
 	bot_functions.increment(num_file)

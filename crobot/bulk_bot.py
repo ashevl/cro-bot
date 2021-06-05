@@ -28,6 +28,7 @@ while letter1 < last:
 			print ('This is the last go round. The skip = ' + str(skip))
 			json_data = bot_functions.name_search(search_term, skip)
 			bot_functions.json_to_mysql(json_data)
+			bot_functions.json_to_sql(json_data)
 
 		letter2 += 1
 	else:

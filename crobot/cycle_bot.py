@@ -1,4 +1,4 @@
-import bot_functions
+#import bot_functions
 
 #This program is designed to run from the current company number up to the latest company formed
 
@@ -28,7 +28,9 @@ while count == '1':
 #	bot_functions.address_to_geocode(num)
 	json_data = bot_functions.read_json(num)
 	bot_functions.json_to_mysql(json_data)
+	bot_functions.json_to_sql(json_data)
 	bot_functions.increment(num_file)
+
 	i = i + 1
 	num = bot_functions.get_num(num_file)
 	count = bot_functions.num_count(num)

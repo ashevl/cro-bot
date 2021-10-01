@@ -34,6 +34,14 @@ while count == '1':
 	i = i + 1
 	num = bot_functions.get_num(num_file)
 	count = bot_functions.num_count(num)
+	if count == '0':
+		bot_functions.increment(num_file)
+		num = bot_functions.get_num(num_file)
+		count = bot_functions.num_count(num)
+		if count == '0':
+			bot_functions.deincrement(num_file)
+			num = bot_functions.get_num(num_file)
+			count = bot_functions.num_count(num)
 	print ('The current number is ' + num)
 	print ('The count is :' + count + '\n')
 	print ('The search has been performed ' + str(i) + ' times.\n')

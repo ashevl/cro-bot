@@ -110,6 +110,30 @@ def increment(num_file):
 	f.write(string3)
 	f.close
 
+def deincrement(num_file):
+	# opens the file which has the newst company number
+	f = open(num_file, 'r')
+
+	# assigna the contents of this text file the name 'string1'
+	string1 = f.read()
+
+	# strips out any new line characters
+	string2 = string1.rstrip('\n')
+
+	# converts the string into an integer
+	num = int(string2)
+
+	# subtracts one
+	num -= 1
+
+	# converts the new integer back into a string
+	string3 = str(num)
+
+	# write the new value to the file
+	f = open(num_file, 'w')
+	f.write(string3)
+	f.close
+
 def read_json(num):
 	import json
 
@@ -336,5 +360,6 @@ def json_to_mysql(json_data):
 		mycursor.execute(sql, val)
 
 	mydb.commit()
+	mydb.close()
 
 	print(mycursor.rowcount, "record inserted.")
